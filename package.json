@@ -23,8 +23,10 @@
     "git-remote-origin-url": "^2.0.0",
     "git-remote-upstream-url": "^2.0.0",
     "json-diff": "^0.5.2",
+    "mdast-util-heading-range": "^2.1.0",
     "meow": "^3.7.0",
     "mz": "^2.7.0",
+<<<<<<< HEAD
     "querystring": "^0.2.0"
   },
   "devDependencies": {
@@ -39,4 +41,10 @@
   "contributors": [
     "Richard Littauer <richard.littauer@gmail.com> (https://burntfen.com)"
   ]
+=======
+    "querystring": "^0.2.0",
+    "remark": "^8.0.0",
+    "vfile": "^2.2.0"
+  }
+>>>>>>> feat: get contribute section from README
 }
