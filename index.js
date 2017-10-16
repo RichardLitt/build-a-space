@@ -22,6 +22,10 @@ const github = axios.create({
 const githubHelpers = require('./lib/githubHelpers.js')
 const lintPackageJson = require('./lib/lintPackageJson.js')
 
+const vfile = require('vfile')
+const remark = require('remark')
+const heading = require('mdast-util-heading-range')
+
 // TODO Check that repoName is valid
 // TODO Export properly
 
@@ -261,6 +265,34 @@ TODO This needs to be filled out!`)
           }
 
           file.content = btoa(fileContent)
+
+          if (file.name === 'contributing') {
+            const {data: readme} = await github.get(`/repos/${github.repoName}/readme`)
+
+            remark()
+            .use(plugin)
+            .process(vfile({contents: Buffer.from(readme.content, 'base64')}), function (err, file) {
+              if (err) throw err
+              // console.log(String(file))
+            })
+
+            function plugin () {
+              return transformer
+              function transformer (tree) {
+                heading(tree, 'license', (start) => { console.log(start) })
+                console.log(heading)
+              }
+              // function mutate(start, nodes, end) {
+              //   return [
+              //     start,
+              //     {type: 'paragraph', children: [{type: 'text', value: 'Qux.'}]},
+              //     end
+              //   ];
+              // }
+            }
+
+            fileContent = await fs.readFileSync(path.join(__dirname, `fixtures/${file.filePath}`)).toString('base64')
+          }
         }
 
         toCheck.push(file)
